@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <vector>
 #include <string>
 #include <math.h>
@@ -6,7 +6,7 @@
 using namespace std;
 
 bool is_prime(unsigned long long value){
-    int max_i = floor(sqrt(value)); // нужно #include <math.h> для перебора до корня
+    int max_i = floor(sqrt(value)); // РЅСѓР¶РЅРѕ #include <math.h> РґР»СЏ РїРµСЂРµР±РѕСЂР° РґРѕ РєРѕСЂРЅСЏ
     for (int i = 2; i <= max_i; i++){
         if (value % i == 0){
             return false;
@@ -45,7 +45,7 @@ unsigned long long factorial(int N){
     return N * factorial(N-1);
 }
 
-unsigned long long fib(int N){ // недостаточно быстро
+unsigned long long fib(int N){ // РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р±С‹СЃС‚СЂРѕ
     if (N == 1)
         return 1;
     else if (N == 2)
@@ -54,7 +54,7 @@ unsigned long long fib(int N){ // недостаточно быстро
         return fib(N-1) + fib(N-2) ;
 }
 
-unsigned long long fast_fib(int N){ // быстрый фиббоначи
+unsigned long long fast_fib(int N){ // Р±С‹СЃС‚СЂС‹Р№ С„РёР±Р±РѕРЅР°С‡Рё
     int fib1 = 0, fib2 = 1, fib3 = 1;
     for (int i =0; i < N; i++){
         fib3 = fib1 + fib2;
@@ -83,18 +83,18 @@ int read_hex(string hex_str){
     char c;
     for (int i = hex_str.size()-1; i >= 0; i--){
         c = hex_str[i];
-        if (c > 64 && c < 71) // для ввода заглавными буквами
+        if (c > 64 && c < 71) // РґР»СЏ РІРІРѕРґР° Р·Р°РіР»Р°РІРЅС‹РјРё Р±СѓРєРІР°РјРё
             ans += (c-55)*koeff;
-        else if (c > 96 && c < 103) //для ввода маленькими буквами
+        else if (c > 96 && c < 103) //РґР»СЏ РІРІРѕРґР° РјР°Р»РµРЅСЊРєРёРјРё Р±СѓРєРІР°РјРё
             ans += (c-87)*koeff;
-        else //если попалась циферка
+        else //РµСЃР»Рё РїРѕРїР°Р»Р°СЃСЊ С†РёС„РµСЂРєР°
             ans += (c-48)*koeff;
         koeff *= 16;
     }
     return ans;
 }
 
-bool check_bracket_sequence(string seq){ // проверить скобочную последовательность
+bool check_bracket_sequence(string seq){ // РїСЂРѕРІРµСЂРёС‚СЊ СЃРєРѕР±РѕС‡РЅСѓСЋ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ
     if (seq.size() == 0)
         return true;
     else if (seq.size() == 1)
@@ -104,7 +104,7 @@ bool check_bracket_sequence(string seq){ // проверить скобочную последовательнос
     while(i < seq.size()-2){
         string check = seq.substr(i, 2);
         if (check == "<>" || check == "[]" || check == "{}" || check == "()"){
-            seq.erase(i, 2);// если две скобочки ПРАВИЛЬНО стоят рядом, стираем их
+            seq.erase(i, 2);// РµСЃР»Рё РґРІРµ СЃРєРѕР±РѕС‡РєРё РџР РђР’РР›Р¬РќРћ СЃС‚РѕСЏС‚ СЂСЏРґРѕРј, СЃС‚РёСЂР°РµРј РёС…
             return check_bracket_sequence(seq);
         }
         i++;
