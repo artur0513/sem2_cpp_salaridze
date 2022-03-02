@@ -1,11 +1,11 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <vector>
 #include <ctime>
 #include <cmath>
 
 using namespace std;
 
-class Vec2i{ // самый простой в мире класс для int вектора (нужен чтобы удобнее хранить координаты дислокаций)
+class Vec2i{ // СЃР°РјС‹Р№ РїСЂРѕСЃС‚РѕР№ РІ РјРёСЂРµ РєР»Р°СЃСЃ РґР»СЏ int РІРµРєС‚РѕСЂР° (РЅСѓР¶РµРЅ С‡С‚РѕР±С‹ СѓРґРѕР±РЅРµРµ С…СЂР°РЅРёС‚СЊ РєРѕРѕСЂРґРёРЅР°С‚С‹ РґРёСЃР»РѕРєР°С†РёР№)
 public:
     int x, y;
 
@@ -15,21 +15,21 @@ public:
     }
 };
 /*
-ЗАДАНИЕ: 1)добавить возможность дислокации пролетать через стенки и вылетать с другой стороны по одной из осей
-2) снять больше тестов для второго задания с разными размерами и лианеризовать зависимость как нибудь
+РґРѕРї Р·Р°РґР°РЅРёРµ: 1)РґРѕР±Р°РІРёС‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РґРёСЃР»РѕРєР°С†РёРё РїСЂРѕР»РµС‚Р°С‚СЊ С‡РµСЂРµР· СЃС‚РµРЅРєРё Рё РІС‹Р»РµС‚Р°С‚СЊ СЃ РґСЂСѓРіРѕР№ СЃС‚РѕСЂРѕРЅС‹ РїРѕ РѕРґРЅРѕР№ РёР· РѕСЃРµР№
+2) СЃРЅСЏС‚СЊ Р±РѕР»СЊС€Рµ С‚РµСЃС‚РѕРІ РґР»СЏ РІС‚РѕСЂРѕРіРѕ Р·Р°РґР°РЅРёСЏ СЃ СЂР°Р·РЅС‹РјРё СЂР°Р·РјРµСЂР°РјРё Рё Р»РёР°РЅРµСЂРёР·РѕРІР°С‚СЊ Р·Р°РІРёСЃРёРјРѕСЃС‚СЊ РєР°Рє РЅРёР±СѓРґСЊ
 */
-class Crystal{ // сам класс для кристаллов
+class Crystal{ // СЃР°Рј РєР»Р°СЃСЃ РґР»СЏ РєСЂРёСЃС‚Р°Р»Р»РѕРІ
 public:
     int crystal_size_x, crystal_size_y, number_of_disloc;
-    vector<vector<short>> crystal; // двумерный массив кристалла
+    vector<vector<short>> crystal; // РґРІСѓРјРµСЂРЅС‹Р№ РјР°СЃСЃРёРІ РєСЂРёСЃС‚Р°Р»Р»Р°
 
-    vector<Vec2i*> moving_disloc; // ссылки координаты дислокаций, которые можно двигать
-    vector<Vec2i> disloc; // координаты дислокаций
+    vector<Vec2i*> moving_disloc; // СЃСЃС‹Р»РєРё РєРѕРѕСЂРґРёРЅР°С‚С‹ РґРёСЃР»РѕРєР°С†РёР№, РєРѕС‚РѕСЂС‹Рµ РјРѕР¶РЅРѕ РґРІРёРіР°С‚СЊ
+    vector<Vec2i> disloc; // РєРѕРѕСЂРґРёРЅР°С‚С‹ РґРёСЃР»РѕРєР°С†РёР№
 
-    int turn_num = 0; // счетчик ходов
-    bool process_ended = false; // закончился ли процесс
+    int turn_num = 0; // СЃС‡РµС‚С‡РёРє С…РѕРґРѕРІ
+    bool process_ended = false; // Р·Р°РєРѕРЅС‡РёР»СЃСЏ Р»Рё РїСЂРѕС†РµСЃСЃ
 
-    Crystal(int _crystal_size_x, int _crystal_size_y, int _number_of_disloc){ // конструктор класса
+    Crystal(int _crystal_size_x, int _crystal_size_y, int _number_of_disloc){ // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР»Р°СЃСЃР°
         crystal_size_x = _crystal_size_x;
         crystal_size_y = _crystal_size_y;
         number_of_disloc = _number_of_disloc;
@@ -39,7 +39,7 @@ public:
         generate_disloc();
     }
 
-    void generate_disloc(){ // генерируем атомы(дислокации)
+    void generate_disloc(){ // РіРµРЅРµСЂРёСЂСѓРµРј Р°С‚РѕРјС‹(РґРёСЃР»РѕРєР°С†РёРё)
         int x, y;
         for (int i = 0; i < number_of_disloc; i++){
             do{
@@ -51,7 +51,7 @@ public:
         }
     }
 
-    void print_crystal(){ // выводим на экран кристал
+    void print_crystal(){ // РІС‹РІРѕРґРёРј РЅР° СЌРєСЂР°РЅ РєСЂРёСЃС‚Р°Р»
         cout << "turn number " << turn_num << endl;
         for (int y = 0; y < crystal_size_y; y++){
             for (int x = 0; x < crystal_size_x; x++){
@@ -61,18 +61,18 @@ public:
         }
     }
 
-    bool check_move(int x, int y){ // проверяем, не слипся ли атом(есть ли соседнии)
+    bool check_move(int x, int y){ // РїСЂРѕРІРµСЂСЏРµРј, РЅРµ СЃР»РёРїСЃСЏ Р»Рё Р°С‚РѕРј(РµСЃС‚СЊ Р»Рё СЃРѕСЃРµРґРЅРёРё)
         if (crystal_size_y > 1){
         if(x==0 || x==crystal_size_x-1 || y==0 || y==crystal_size_y-1)
-            return false; // проверяем стоим ли у
+            return false; // РїСЂРѕРІРµСЂСЏРµРј СЃС‚РѕРёРј Р»Рё Сѓ
 
         if(crystal[x-1][y]==1 || crystal[x+1][y]==1 || crystal[x][y-1]==1 || crystal[x][y+1]==1)
-            return false; //если рядом другая клетка
+            return false; //РµСЃР»Рё СЂСЏРґРѕРј РґСЂСѓРіР°СЏ РєР»РµС‚РєР°
 
-        return true; //во всех остальных случаях можем двигаться
+        return true; //РІРѕ РІСЃРµС… РѕСЃС‚Р°Р»СЊРЅС‹С… СЃР»СѓС‡Р°СЏС… РјРѕР¶РµРј РґРІРёРіР°С‚СЊСЃСЏ
         }
 
-        else{ // отдельная проверка для одномерного кристалла
+        else{ // РѕС‚РґРµР»СЊРЅР°СЏ РїСЂРѕРІРµСЂРєР° РґР»СЏ РѕРґРЅРѕРјРµСЂРЅРѕРіРѕ РєСЂРёСЃС‚Р°Р»Р»Р°
             if(x==0 || x==crystal_size_x-1)
                 return false;
             if(crystal[x-1][y]==1 || crystal[x+1][y]==1)
@@ -81,8 +81,8 @@ public:
         }
     }
 
-    void get_moving_dislocs(){ // ищем и составляем массив с координатами дислокаций, которые будут дивгаться
-        for (int i = 0; i < disloc.size(); i++){ // Здесь ГОРАЗДО логичнее и быстрее было бы хранить отдельный массив со всеми дислокациями
+    void get_moving_dislocs(){ // РёС‰РµРј Рё СЃРѕСЃС‚Р°РІР»СЏРµРј РјР°СЃСЃРёРІ СЃ РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё РґРёСЃР»РѕРєР°С†РёР№, РєРѕС‚РѕСЂС‹Рµ Р±СѓРґСѓС‚ РґРёРІРіР°С‚СЊСЃСЏ
+        for (int i = 0; i < disloc.size(); i++){ // Р—РґРµСЃСЊ Р“РћР РђР—Р”Рћ Р»РѕРіРёС‡РЅРµРµ Рё Р±С‹СЃС‚СЂРµРµ Р±С‹Р»Рѕ Р±С‹ С…СЂР°РЅРёС‚СЊ РѕС‚РґРµР»СЊРЅС‹Р№ РјР°СЃСЃРёРІ СЃРѕ РІСЃРµРјРё РґРёСЃР»РѕРєР°С†РёСЏРјРё
                 int x = disloc[i].x;
                 int y = disloc[i].y;
                 if (crystal[x][y] == 1 && check_move(x, y)){
@@ -92,21 +92,21 @@ public:
         }
     }
 
-    void move_all_disloc(){ // двигаем все дислокации, что нужно подвинуть
+    void move_all_disloc(){ // РґРІРёРіР°РµРј РІСЃРµ РґРёСЃР»РѕРєР°С†РёРё, С‡С‚Рѕ РЅСѓР¶РЅРѕ РїРѕРґРІРёРЅСѓС‚СЊ
         int dir, x, y;
         for (int i = 0; i < moving_disloc.size(); i++){
 
             if (crystal_size_y > 1)
                 dir = rand()%4;
             else
-                dir = rand()%2; // если одномерный кристалл, то движемся только в двух направлениях
+                dir = rand()%2; // РµСЃР»Рё РѕРґРЅРѕРјРµСЂРЅС‹Р№ РєСЂРёСЃС‚Р°Р»Р», С‚Рѕ РґРІРёР¶РµРјСЃСЏ С‚РѕР»СЊРєРѕ РІ РґРІСѓС… РЅР°РїСЂР°РІР»РµРЅРёСЏС…
 
             x = moving_disloc[i]->x;
             y = moving_disloc[i]->y;
             crystal[x][y] = 0;
 
             if (dir == 0){
-                if (crystal[x+1][y] == 1){ // здесь дополнительно проверяем не заняли ли блок, куда мы хотим пойти
+                if (crystal[x+1][y] == 1){ // Р·РґРµСЃСЊ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ РїСЂРѕРІРµСЂСЏРµРј РЅРµ Р·Р°РЅСЏР»Рё Р»Рё Р±Р»РѕРє, РєСѓРґР° РјС‹ С…РѕС‚РёРј РїРѕР№С‚Рё
                     crystal[x][y] = 1;
                 }
                 else{
@@ -148,7 +148,7 @@ public:
         }
     }
 
-    bool update(){ // собрали все необходимые функции вместе чтобы сделать ход!
+    bool update(){ // СЃРѕР±СЂР°Р»Рё РІСЃРµ РЅРµРѕР±С…РѕРґРёРјС‹Рµ С„СѓРЅРєС†РёРё РІРјРµСЃС‚Рµ С‡С‚РѕР±С‹ СЃРґРµР»Р°С‚СЊ С…РѕРґ!
         if (!process_ended){
             moving_disloc.clear();
             get_moving_dislocs();
@@ -156,7 +156,7 @@ public:
                 process_ended = true;
             move_all_disloc();
             turn_num++;
-            if (turn_num > 200000){ // Тут можно поставить ограничение количество ходов, если тест идет слишком долго
+            if (turn_num > 200000){ // РўСѓС‚ РјРѕР¶РЅРѕ РїРѕСЃС‚Р°РІРёС‚СЊ РѕРіСЂР°РЅРёС‡РµРЅРёРµ РєРѕР»РёС‡РµСЃС‚РІРѕ С…РѕРґРѕРІ, РµСЃР»Рё С‚РµСЃС‚ РёРґРµС‚ СЃР»РёС€РєРѕРј РґРѕР»РіРѕ
                 process_ended = true;
             }
         }
@@ -165,7 +165,7 @@ public:
 
 };
 
-float first_task_test(int number_of_tests, int crystal_size , bool third_test = false){ //тест среднее число ходов в симуляции с 1 дислокацией и квадратном кристалле фиксированного размера
+float first_task_test(int number_of_tests, int crystal_size , bool third_test = false){ //С‚РµСЃС‚ СЃСЂРµРґРЅРµРµ С‡РёСЃР»Рѕ С…РѕРґРѕРІ РІ СЃРёРјСѓР»СЏС†РёРё СЃ 1 РґРёСЃР»РѕРєР°С†РёРµР№ Рё РєРІР°РґСЂР°С‚РЅРѕРј РєСЂРёСЃС‚Р°Р»Р»Рµ С„РёРєСЃРёСЂРѕРІР°РЅРЅРѕРіРѕ СЂР°Р·РјРµСЂР°
     int turn_num = 0;
     int crystal_size_y = crystal_size;
     if (third_test == true){
@@ -183,14 +183,14 @@ float first_task_test(int number_of_tests, int crystal_size , bool third_test = 
     return avg;
 }
 
-void first_task_full_test(bool third_test = false, int min_size = 10, int max_size = 100, int step = 5, int num_of_simulations = 500){ // полный тест к первому заданию
+void first_task_full_test(bool third_test = false, int min_size = 10, int max_size = 100, int step = 5, int num_of_simulations = 500){ // РїРѕР»РЅС‹Р№ С‚РµСЃС‚ Рє РїРµСЂРІРѕРјСѓ Р·Р°РґР°РЅРёСЋ
     for (int i = min_size; i < max_size; i+=step){
         float x = first_task_test(num_of_simulations, i, third_test);
         cout << x << " " << i << endl;
     }
 }
 
-float second_task_test(int number_of_tests, int crystal_size, float koeff, bool third_test = false){ //тест среднее число ходов в симуляции с 1 дислокацией и квадратном кристалле
+float second_task_test(int number_of_tests, int crystal_size, float koeff, bool third_test = false){ //С‚РµСЃС‚ СЃСЂРµРґРЅРµРµ С‡РёСЃР»Рѕ С…РѕРґРѕРІ РІ СЃРёРјСѓР»СЏС†РёРё СЃ 1 РґРёСЃР»РѕРєР°С†РёРµР№ Рё РєРІР°РґСЂР°С‚РЅРѕРј РєСЂРёСЃС‚Р°Р»Р»Рµ
     int turn_num = 0;
     int crystal_size_y = crystal_size;
     if (third_test == true){
