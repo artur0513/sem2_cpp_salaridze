@@ -29,10 +29,14 @@ public:
     int turn_num = 0; // счетчик ходов
     bool process_ended = false; // закончился ли процесс
 
-    Crystal(int _crystal_size_x, int _crystal_size_y, int _number_of_disloc){ // конструктор класса
+    bool x_loop;
+
+    // Размеры X, Y кристала, количество дислокаций, будет ли дислокация появлятся с другой стороны если перешла с края
+    Crystal(int _crystal_size_x, int _crystal_size_y, int _number_of_disloc, bool _x_loop = false){ // конструктор класса
         crystal_size_x = _crystal_size_x;
         crystal_size_y = _crystal_size_y;
         number_of_disloc = _number_of_disloc;
+        x_loop = _x_loop;
         for (int i = 0; i < _crystal_size_x; i++){
             crystal.push_back(vector<short>(_crystal_size_y, 0));
         }
@@ -59,19 +63,42 @@ public:
             }
             cout << endl;
         }
+        /*cout << "dislocs " << endl;
+        for (int i = 0; i < disloc.size(); i++){
+            cout << disloc[i].x << " " << disloc[i].y << endl;
+        }*/
     }
 
     bool check_move(int x, int y){ // проверяем, не слипся ли атом(есть ли соседнии)
-        if (crystal_size_y > 1){
-        if(x==0 || x==crystal_size_x-1 || y==0 || y==crystal_size_y-1)
-            return false; // проверяем стоим ли у
+        if (crystal_size_y > 1 && !x_loop){
+            if(y==0 || y==crystal_size_y-1 || x==0 || x==crystal_size_x-1)
+                return false; // проверяем стоим ли у
 
-        if(crystal[x-1][y]==1 || crystal[x+1][y]==1 || crystal[x][y-1]==1 || crystal[x][y+1]==1)
-            return false; //если рядом другая клетка
+            if(crystal[x-1][y]==1 || crystal[x+1][y]==1 || crystal[x][y-1]==1 || crystal[x][y+1]==1)
+                return false; //если рядом другая клетка
 
-        return true; //во всех остальных случаях можем двигаться
+            return true; //во всех остальных случаях можем двигаться
         }
+        else if (x_loop){
+            if(y==0 || y==crystal_size_y-1)
+                return false; // проверяем стоим ли у
 
+            if (crystal[x][y-1]==1 || crystal[x][y+1]==1)
+                return false;
+
+            if (x != 0 && x != crystal_size_x - 1){
+                if(crystal[x-1][y]==1 || crystal[x+1][y]==1)
+                    return false; //если рядом другая клетка
+            }
+            else if (x == 0 && (crystal[crystal_size_x - 1][y]==1 || crystal[1][y] == 1)){
+                return false;
+            }
+            else if (x == crystal_size_x-1 && (crystal[0][y]==1 || crystal[x-1][y] == 1)){
+                return false;
+            }
+
+            return true; //во всех остальных случаях можем двигаться
+        }
         else{ // отдельная проверка для одномерного кристалла
             if(x==0 || x==crystal_size_x-1)
                 return false;
@@ -82,10 +109,10 @@ public:
     }
 
     void get_moving_dislocs(){ // ищем и составляем массив с координатами дислокаций, которые будут дивгаться
-        for (int i = 0; i < disloc.size(); i++){ // Здесь ГОРАЗДО логичнее и быстрее было бы хранить отдельный массив со всеми дислокациями
+        for (int i = 0; i < disloc.size(); i++){
                 int x = disloc[i].x;
                 int y = disloc[i].y;
-                if (crystal[x][y] == 1 && check_move(x, y)){
+                if (check_move(x, y)){
                     moving_disloc.push_back(&disloc[i]);
                 }
 
@@ -106,22 +133,45 @@ public:
             crystal[x][y] = 0;
 
             if (dir == 0){
-                if (crystal[x+1][y] == 1){ // здесь дополнительно проверяем не заняли ли блок, куда мы хотим пойти
-                    crystal[x][y] = 1;
+                cout << crystal_size_x << endl;
+                if (x_loop && x == crystal_size_x - 1){
+                    if (crystal[0][y] == 1){ // здесь дополнительно проверяем не заняли ли блок, куда мы хотим пойти
+                        crystal[x][y] = 1;
+                    }
+                    else{
+                        crystal[0][y] = 1;
+                        moving_disloc[i]->x = 0;
+                    }
                 }
                 else{
-                    crystal[x+1][y] = 1;
-                    moving_disloc[i]->x += 1;
+                    if (crystal[x+1][y] == 1){ // здесь дополнительно проверяем не заняли ли блок, куда мы хотим пойти
+                        crystal[x][y] = 1;
+                    }
+                    else{
+                        crystal[x+1][y] = 1;
+                        moving_disloc[i]->x += 1;
+                    }
                 }
             }
 
             else if (dir == 1){
-                if (crystal[x-1][y] == 1){
-                    crystal[x][y] = 1;
+                if (x_loop && x == 0){
+                    if (crystal[crystal_size_x - 1][y] == 1){
+                        crystal[x][y] = 1;
+                    }
+                    else{
+                        crystal[crystal_size_x - 1][y] = 1;
+                        moving_disloc[i]->x = crystal_size_x - 1;
+                    }
                 }
-                else{
-                    crystal[x-1][y] = 1;
-                    moving_disloc[i]->x -= 1;
+                else {
+                    if (crystal[x-1][y] == 1){
+                        crystal[x][y] = 1;
+                    }
+                    else{
+                        crystal[x-1][y] = 1;
+                        moving_disloc[i]->x -= 1;
+                    }
                 }
             }
 
@@ -209,7 +259,7 @@ float second_task_test(int number_of_tests, int crystal_size, float koeff, bool 
 }
 
 void second_task_full_test(bool third_test = false, float min_percent = 0.02, float max_percent = 0.98, float step = 0.02, int num_of_simulations = 500){
-    int crystal_size = 100;
+    int crystal_size = 150;
     if (third_test)
         crystal_size = 200;
     for (float i = min_percent; i < max_percent; i+=step){
@@ -221,5 +271,10 @@ int main()
 {
 srand(time(0));
 
-second_task_full_test();
+Crystal test(5, 10, 1, true);
+while(!test.process_ended)
+{
+    test.print_crystal();
+    test.update();
+}
 }
