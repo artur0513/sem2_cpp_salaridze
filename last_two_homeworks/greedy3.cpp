@@ -1,20 +1,20 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <vector>
 
 using namespace std;
 
-// Жадные алгоритмы задание 3
+// Р–Р°РґРЅС‹Рµ Р°Р»РіРѕСЂРёС‚РјС‹ Р·Р°РґР°РЅРёРµ 3
 
 int main()
 {
     setlocale(0, "rus");
 
-    int money; // сколько нужно разменять
+    int money; // СЃРєРѕР»СЊРєРѕ РЅСѓР¶РЅРѕ СЂР°Р·РјРµРЅСЏС‚СЊ
     cin >> money;
 
     const int coins_num = 5;
-    int coins[coins_num] = {1, 2, 5, 7, 10}; // Наши монеты на которые меняем
-    vector<int> min_coins; // минимальное количество монет чтобы разменять сумму от 0 до money
+    int coins[coins_num] = {1, 2, 5, 7, 10}; // РќР°С€Рё РјРѕРЅРµС‚С‹ РЅР° РєРѕС‚РѕСЂС‹Рµ РјРµРЅСЏРµРј
+    vector<int> min_coins; // РјРёРЅРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РјРѕРЅРµС‚ С‡С‚РѕР±С‹ СЂР°Р·РјРµРЅСЏС‚СЊ СЃСѓРјРјСѓ РѕС‚ 0 РґРѕ money
     min_coins.resize(money+1);
     min_coins[0] = 0;
 
@@ -30,5 +30,5 @@ int main()
         }
         min_coins[i] = current_min + 1;
     }
-    cout << "Нужно монет: " << min_coins[money] << endl;
+    cout << "РќСѓР¶РЅРѕ РјРѕРЅРµС‚: " << min_coins[money] << endl;
 }
